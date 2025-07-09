@@ -634,8 +634,6 @@ def close_browser(ctx: Context) -> str:
 
 def main():
     """Run the Desktop MCP server"""
-    import mcp.server.stdio
-    
     logger.info("Starting Desktop MCP Server")
     mcp.run()
 
