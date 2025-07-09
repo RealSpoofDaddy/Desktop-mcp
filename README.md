@@ -51,7 +51,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/desktop-mcp.git
+git clone https://github.com/RealSpoofDaddy/desktop-mcp.git
 cd desktop-mcp
 ```
 
