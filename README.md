@@ -1,238 +1,230 @@
 
 
-# BlenderMCP - Blender Model Context Protocol Integration
+# DesktopMCP - Desktop Automation through Model Context Protocol
 
-BlenderMCP connects Blender to Claude AI through the Model Context Protocol (MCP), allowing Claude to directly interact with and control Blender. This integration enables prompt assisted 3D modeling, scene creation, and manipulation.
+DesktopMCP connects AI assistants like Claude to your desktop, enabling intelligent automation of your PC through the Model Context Protocol (MCP). This integration allows AI to help you with everyday tasks like opening applications, managing files, browsing the web, and monitoring your system.
 
-[Full tutorial](https://www.youtube.com/watch?v=lCyQ717DuzQ)
+## 🚀 Features
 
-### Join the Community
+- **Application Management**: Open and control applications like Blender, VS Code, browsers, calculators, and more
+- **File Operations**: Move, copy, and organize files and directories with intelligent path handling
+- **Web Automation**: Search the web, navigate to websites, and automate browser tasks
+- **System Monitoring**: Get real-time system information including CPU, memory, disk usage, and running processes
+- **Screenshot Capture**: Take desktop screenshots for documentation or troubleshooting
+- **Command Execution**: Run system commands safely with timeout controls
+- **Cross-Platform**: Works on Windows, macOS, and Linux
 
-Give feedback, get inspired, and build on top of the MCP: [Discord](https://discord.gg/z5apgR8TFU)
+## 🛠 Components
 
-### Supporters
+The system consists of a single MCP server that provides desktop automation tools:
 
-<div align="center" markdown="1">
-   <sup>Special thanks to:</sup>
-   <br>
-   <br>
-   <a href="https://www.warp.dev/blender-mcp">
-      <img alt="Warp sponsorship" width="400" src="https://github.com/user-attachments/assets/c21102f7-bab9-4344-a731-0cf6b341cab2">
-   </a>
+- **Desktop MCP Server** (`src/desktop_mcp/server.py`): A Python server implementing the Model Context Protocol with desktop automation capabilities
 
-### [Warp, the intelligent terminal for developers](https://www.warp.dev/blender-mcp)
-[Available for MacOS, Linux, & Windows](https://www.warp.dev/blender-mcp)<br>
-
-</div>
-<hr>
-
-**Other supporters:**
-
-[CodeRabbit](https://www.coderabbit.ai/)
-
-**All supporters:**
-
-[Support this project](https://github.com/sponsors/ahujasid)
-
-## Release notes (1.2.0)
-- View screenshots for Blender viewport to better understand the scene
-- Search and download Sketchfab models
-
-
-### Previously added features:
-- Support for Poly Haven assets through their API
-- Support to generate 3D models using Hyper3D Rodin
-- For newcomers, you can go straight to Installation. For existing users, see the points below
-- Download the latest addon.py file and replace the older one, then add it to Blender
-- Delete the MCP server from Claude and add it back again, and you should be good to go!
-
-## Features
-
-- **Two-way communication**: Connect Claude AI to Blender through a socket-based server
-- **Object manipulation**: Create, modify, and delete 3D objects in Blender
-- **Material control**: Apply and modify materials and colors
-- **Scene inspection**: Get detailed information about the current Blender scene
-- **Code execution**: Run arbitrary Python code in Blender from Claude
-
-## Components
-
-The system consists of two main components:
-
-1. **Blender Addon (`addon.py`)**: A Blender addon that creates a socket server within Blender to receive and execute commands
-2. **MCP Server (`src/blender_mcp/server.py`)**: A Python server that implements the Model Context Protocol and connects to the Blender addon
-
-## Installation
-
+## 📦 Installation
 
 ### Prerequisites
 
-- Blender 3.0 or newer
 - Python 3.10 or newer
-- uv package manager: 
+- uv package manager (recommended for dependency management)
 
-**If you're on Mac, please install uv as**
+**Install uv:**
+
+**MacOS:**
 ```bash
 brew install uv
 ```
-**On Windows**
+
+**Windows:**
 ```bash
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex" 
-```
-and then
-```bash
-set Path=C:\Users\nntra\.local\bin;%Path%
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+set Path=C:\Users\%USERNAME%\.local\bin;%Path%
 ```
 
-Otherwise installation instructions are on their website: [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
+**Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-**⚠️ Do not proceed before installing UV**
+### Claude Desktop Integration
 
-
-### Claude for Desktop Integration
-
-[Watch the setup instruction video](https://www.youtube.com/watch?v=neoK_WMq92g) (Assuming you have already installed uv)
-
-Go to Claude > Settings > Developer > Edit Config > claude_desktop_config.json to include the following:
+Add the following to your Claude Desktop configuration (`claude_desktop_config.json`):
 
 ```json
 {
     "mcpServers": {
-        "blender": {
+        "desktop": {
             "command": "uvx",
             "args": [
-                "blender-mcp"
+                "desktop-mcp"
             ]
         }
     }
 }
 ```
 
-### Cursor integration
+### Cursor Integration
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=blender&config=eyJjb21tYW5kIjoidXZ4IGJsZW5kZXItbWNwIn0%3D)
+For Cursor IDE integration, add to Settings > MCP:
 
-For Mac users, go to Settings > MCP and paste the following 
-
-- To use as a global server, use "add new global MCP server" button and paste
-- To use as a project specific server, create `.cursor/mcp.json` in the root of the project and paste
-
-
+**Global Server:**
 ```json
 {
     "mcpServers": {
-        "blender": {
+        "desktop": {
             "command": "uvx",
             "args": [
-                "blender-mcp"
+                "desktop-mcp"
             ]
         }
     }
 }
 ```
 
-For Windows users, go to Settings > MCP > Add Server, add a new server with the following settings:
-
+**Windows Users:** Use this configuration instead:
 ```json
 {
     "mcpServers": {
-        "blender": {
+        "desktop": {
             "command": "cmd",
             "args": [
                 "/c",
                 "uvx",
-                "blender-mcp"
+                "desktop-mcp"
             ]
         }
     }
 }
 ```
 
-[Cursor setup video](https://www.youtube.com/watch?v=wgWsJshecac)
+## 🎯 Usage
 
-**⚠️ Only run one instance of the MCP server (either on Cursor or Claude Desktop), not both**
+Once configured, you'll see a hammer icon with desktop automation tools in Claude or Cursor. Here are some example commands you can use:
 
-### Installing the Blender Addon
+### Application Management
+- "Open Blender so I can start 3D modeling"
+- "Launch VS Code with my project directory"
+- "Open a web browser and navigate to GitHub"
+- "Start the calculator application"
 
-1. Download the `addon.py` file from this repo
-1. Open Blender
-2. Go to Edit > Preferences > Add-ons
-3. Click "Install..." and select the `addon.py` file
-4. Enable the addon by checking the box next to "Interface: Blender MCP"
+### File Operations
+- "Move all my photos from Downloads to Pictures folder"
+- "Copy this project folder to my backup drive"
+- "Show me what's in my Documents directory"
+- "Organize my desktop files by file type"
 
+### Web Browsing
+- "Search Google for Python tutorials"
+- "Navigate to stackoverflow.com"
+- "Open YouTube and search for Blender tutorials"
 
-## Usage
+### System Monitoring
+- "Show me my system's current performance stats"
+- "List the programs using the most CPU"
+- "Take a screenshot of my desktop"
+- "Check how much disk space I have left"
 
-### Starting the Connection
-![BlenderMCP in the sidebar](assets/addon-instructions.png)
+### Command Execution
+- "Run a git status command in my project directory"
+- "Update my system packages"
+- "Check my network connectivity"
 
-1. In Blender, go to the 3D View sidebar (press N if not visible)
-2. Find the "BlenderMCP" tab
-3. Turn on the Poly Haven checkbox if you want assets from their API (optional)
-4. Click "Connect to Claude"
-5. Make sure the MCP server is running in your terminal
+## 🔧 Available Tools
 
-### Using with Claude
+### Core Tools
 
-Once the config file has been set on Claude, and the addon is running on Blender, you will see a hammer icon with tools for the Blender MCP.
+- **`open_application`**: Launch applications with optional command-line arguments
+- **`move_files`**: Move files or directories to new locations
+- **`copy_files`**: Copy files or directories with path validation
+- **`list_directory_contents`**: Browse and inspect directory contents
+- **`search_web`**: Search using Google, Bing, or DuckDuckGo
+- **`navigate_to_website`**: Open specific URLs in a browser
+- **`take_screenshot`**: Capture desktop screenshots
+- **`get_system_information`**: View comprehensive system stats
+- **`get_running_processes`**: Monitor active processes and resource usage
+- **`execute_command`**: Run system commands with safety controls
+- **`close_browser`**: Clean up browser instances
 
-![BlenderMCP in the sidebar](assets/hammer-icon.png)
+### Supported Applications
 
-#### Capabilities
+The tool recognizes many common applications across platforms:
 
-- Get scene and object information 
-- Create, delete and modify shapes
-- Apply or create materials for objects
-- Execute any Python code in Blender
-- Download the right models, assets and HDRIs through [Poly Haven](https://polyhaven.com/)
-- AI generated 3D models through [Hyper3D Rodin](https://hyper3d.ai/)
+**Development:** Blender, VS Code, terminals, text editors
+**Browsers:** Chrome, Firefox, Safari, Edge
+**System:** File managers, calculators, system utilities
+**Custom:** Any installed application can be launched by name
 
+## 🔒 Security & Safety
 
-### Example Commands
+- **Command Timeout**: All system commands have a 30-second timeout
+- **Path Validation**: File operations validate paths and create directories safely
+- **Browser Management**: Automated cleanup of browser instances
+- **Error Handling**: Comprehensive error handling and logging
+- **Safe Defaults**: Conservative settings for automation features
 
-Here are some examples of what you can ask Claude to do:
+## 🖥 Platform Support
 
-- "Create a low poly scene in a dungeon, with a dragon guarding a pot of gold" [Demo](https://www.youtube.com/watch?v=DqgKuLYUv00)
-- "Create a beach vibe using HDRIs, textures, and models like rocks and vegetation from Poly Haven" [Demo](https://www.youtube.com/watch?v=I29rn92gkC4)
-- Give a reference image, and create a Blender scene out of it [Demo](https://www.youtube.com/watch?v=FDRb03XPiRo)
-- "Generate a 3D model of a garden gnome through Hyper3D"
-- "Get information about the current scene, and make a threejs sketch from it" [Demo](https://www.youtube.com/watch?v=jxbNI5L7AH8)
-- "Make this car red and metallic" 
-- "Create a sphere and place it above the cube"
-- "Make the lighting like a studio"
-- "Point the camera at the scene, and make it isometric"
+### Windows
+- Full support for native Windows applications
+- PowerShell and CMD command execution
+- Windows Explorer integration
+- Start menu application launching
 
-## Hyper3D integration
+### macOS
+- Native app launching through `open` command
+- Finder integration
+- Terminal and shell support
+- System application access
 
-Hyper3D's free trial key allows you to generate a limited number of models per day. If the daily limit is reached, you can wait for the next day's reset or obtain your own key from hyper3d.ai and fal.ai.
+### Linux
+- Support for common Linux desktop environments
+- Package manager integration
+- Terminal emulator support
+- File manager integration
 
-## Troubleshooting
+## 🚨 Troubleshooting
 
-- **Connection issues**: Make sure the Blender addon server is running, and the MCP server is configured on Claude, DO NOT run the uvx command in the terminal. Sometimes, the first command won't go through but after that it starts working.
-- **Timeout errors**: Try simplifying your requests or breaking them into smaller steps
-- **Poly Haven integration**: Claude is sometimes erratic with its behaviour
-- **Have you tried turning it off and on again?**: If you're still having connection errors, try restarting both Claude and the Blender server
+### Common Issues
 
+**Connection Problems:**
+- Ensure the MCP server is properly configured in Claude/Cursor
+- Check that uv is installed and accessible
+- Verify Python 3.10+ is available
 
-## Technical Details
+**Permission Errors:**
+- Some system operations may require elevated permissions
+- File operations need appropriate read/write access
+- Web automation requires internet connectivity
 
-### Communication Protocol
+**Application Launch Issues:**
+- Verify applications are installed and in system PATH
+- Check application names match expected formats
+- Some applications may require specific arguments
 
-The system uses a simple JSON-based protocol over TCP sockets:
+### Debug Tips
 
-- **Commands** are sent as JSON objects with a `type` and optional `params`
-- **Responses** are JSON objects with a `status` and `result` or `message`
+1. Check the MCP server logs for detailed error messages
+2. Test file paths manually to verify accessibility
+3. Ensure applications are properly installed
+4. Verify system resources are available
 
-## Limitations & Security Considerations
+## 🤝 Contributing
 
-- The `execute_blender_code` tool allows running arbitrary Python code in Blender, which can be powerful but potentially dangerous. Use with caution in production environments. ALWAYS save your work before using it.
-- Poly Haven requires downloading models, textures, and HDRI images. If you do not want to use it, please turn it off in the checkbox in Blender. 
-- Complex operations might need to be broken down into smaller steps
+Contributions are welcome! Areas for improvement:
 
+- Additional application integrations
+- Enhanced file operation capabilities
+- More system monitoring features
+- Cross-platform compatibility improvements
+- Security enhancements
 
-## Contributing
+## ⚖️ License
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+MIT License - See LICENSE file for details
 
-## Disclaimer
+## 🔗 Related Projects
 
-This is a third-party integration and not made by Blender. Made by [Siddharth](https://x.com/sidahuj)
+This project was inspired by and transformed from the original BlenderMCP project, expanding beyond 3D modeling to comprehensive desktop automation.
+
+---
+
+**Made with ❤️ for desktop automation and AI assistance**
