@@ -27,7 +27,7 @@ The system consists of a single MCP server that provides desktop automation tool
 - Python 3.10 or newer
 - uv package manager (recommended for dependency management)
 
-**Install uv:**
+### Installing uv Package Manager
 
 **MacOS:**
 ```bash
@@ -45,7 +45,83 @@ set Path=C:\Users\%USERNAME%\.local\bin;%Path%
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Claude Desktop Integration
+### Installation Methods
+
+#### Method 1: Using uv (Recommended)
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/yourusername/desktop-mcp.git
+cd desktop-mcp
+```
+
+2. **Install the package:**
+```bash
+uv pip install -e .
+```
+
+3. **Verify installation:**
+```bash
+uvx desktop-mcp --help
+```
+
+#### Method 2: Using pip
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/yourusername/desktop-mcp.git
+cd desktop-mcp
+```
+
+2. **Create a virtual environment:**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies:**
+```bash
+pip install -e .
+```
+
+#### Method 3: Direct Installation
+
+```bash
+pip install git+https://github.com/yourusername/desktop-mcp.git
+```
+
+### Running the MCP Server
+
+#### Standalone Mode
+
+Run the MCP server directly:
+
+```bash
+# Using uv
+uvx desktop-mcp
+
+# Using pip
+python -m desktop_mcp.server
+
+# Direct execution
+python main.py
+```
+
+#### Development Mode
+
+For development and testing:
+
+```bash
+# Install with development dependencies
+uv pip install -e ".[dev]"
+
+# Run with debug logging
+uvx desktop-mcp --debug
+```
+
+### Integration with AI Assistants
+
+#### Claude Desktop Integration
 
 Add the following to your Claude Desktop configuration (`claude_desktop_config.json`):
 
@@ -62,7 +138,22 @@ Add the following to your Claude Desktop configuration (`claude_desktop_config.j
 }
 ```
 
-### Cursor Integration
+**Alternative configuration (if uv is not in PATH):**
+```json
+{
+    "mcpServers": {
+        "desktop": {
+            "command": "python",
+            "args": [
+                "-m",
+                "desktop_mcp.server"
+            ]
+        }
+    }
+}
+```
+
+#### Cursor IDE Integration
 
 For Cursor IDE integration, add to Settings > MCP:
 
@@ -95,6 +186,67 @@ For Cursor IDE integration, add to Settings > MCP:
     }
 }
 ```
+
+#### Other MCP-Compatible Tools
+
+For any MCP-compatible tool, use this configuration:
+
+```json
+{
+    "mcpServers": {
+        "desktop": {
+            "command": "uvx",
+            "args": [
+                "desktop-mcp"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    }
+}
+```
+
+## 🚀 Quick Start
+
+### 1. Install the Package
+
+```bash
+# Clone and install
+git clone https://github.com/yourusername/desktop-mcp.git
+cd desktop-mcp
+uv pip install -e .
+```
+
+### 2. Test the Installation
+
+```bash
+# Verify the MCP server works
+uvx desktop-mcp --help
+```
+
+### 3. Configure Your AI Assistant
+
+Add to your Claude Desktop or Cursor configuration:
+
+```json
+{
+    "mcpServers": {
+        "desktop": {
+            "command": "uvx",
+            "args": ["desktop-mcp"]
+        }
+    }
+}
+```
+
+### 4. Start Using Desktop Automation
+
+Once configured, you can:
+- Open applications: "Open VS Code"
+- Manage files: "Move all photos to Pictures folder"
+- Browse web: "Search for Python tutorials"
+- Monitor system: "Show my CPU usage"
 
 ## 🎯 Usage
 
@@ -183,29 +335,123 @@ The tool recognizes many common applications across platforms:
 
 ## 🚨 Troubleshooting
 
-### Common Issues
+### Installation Issues
+
+**uv not found:**
+```bash
+# Add uv to PATH (Linux/macOS)
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Windows - restart terminal after installation
+# Or add manually to PATH: %USERPROFILE%\.local\bin
+```
+
+**Python version issues:**
+```bash
+# Check Python version
+python --version
+
+# Install Python 3.10+ if needed
+# Ubuntu/Debian:
+sudo apt update && sudo apt install python3.10
+
+# macOS:
+brew install python@3.10
+
+# Windows: Download from python.org
+```
+
+**Permission errors during installation:**
+```bash
+# Use virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+# or
+venv\Scripts\activate     # Windows
+
+# Then install
+pip install -e .
+```
+
+### Running Issues
+
+**MCP server won't start:**
+```bash
+# Check if package is installed
+uvx desktop-mcp --help
+
+# Try direct execution
+python -m desktop_mcp.server
+
+# Check for missing dependencies
+uv pip install -e ".[dev]"
+```
 
 **Connection Problems:**
 - Ensure the MCP server is properly configured in Claude/Cursor
 - Check that uv is installed and accessible
 - Verify Python 3.10+ is available
+- Test server manually: `uvx desktop-mcp`
 
 **Permission Errors:**
 - Some system operations may require elevated permissions
 - File operations need appropriate read/write access
 - Web automation requires internet connectivity
+- On Linux, ensure user has proper permissions
 
 **Application Launch Issues:**
 - Verify applications are installed and in system PATH
 - Check application names match expected formats
 - Some applications may require specific arguments
+- Test application launch manually
+
+### Platform-Specific Issues
+
+**Windows:**
+```bash
+# If uvx not found, use full path
+%USERPROFILE%\.local\bin\uvx.exe desktop-mcp
+
+# Or use Python directly
+python -m desktop_mcp.server
+```
+
+**macOS:**
+```bash
+# If getting permission errors
+sudo chown -R $(whoami) ~/.local/bin
+
+# For audio features (if using voice commands)
+brew install portaudio
+```
+
+**Linux:**
+```bash
+# Install system dependencies
+sudo apt install python3-dev build-essential
+
+# For GUI features
+sudo apt install python3-pyqt5
+
+# For audio features
+sudo apt install portaudio19-dev python3-pyaudio
+```
 
 ### Debug Tips
 
-1. Check the MCP server logs for detailed error messages
-2. Test file paths manually to verify accessibility
-3. Ensure applications are properly installed
-4. Verify system resources are available
+1. **Check the MCP server logs for detailed error messages**
+2. **Test file paths manually to verify accessibility**
+3. **Ensure applications are properly installed**
+4. **Verify system resources are available**
+5. **Run with debug mode:**
+   ```bash
+   uvx desktop-mcp --debug
+   ```
+6. **Check network connectivity for web features**
+7. **Verify Python environment:**
+   ```bash
+   python -c "import desktop_mcp; print('Package installed successfully')"
+   ```
 
 ## 🤝 Contributing
 
