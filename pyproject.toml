@@ -1,7 +1,7 @@
 [project]
 name = "desktop-mcp"
-version = "1.0.0"
-description = "Desktop automation through the Model Context Protocol - AI assistant for managing your PC"
+version = "2.0.0"
+description = "Advanced Desktop automation platform with GUI, voice commands, and plugin system"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -14,31 +14,113 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    # Core MCP and web
     "mcp[cli]>=1.3.0",
-    "psutil>=5.9.0",
     "requests>=2.31.0",
-    "pillow>=10.0.0",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "websockets>=12.0",
+    
+    # System monitoring and automation
+    "psutil>=5.9.0",
     "pyautogui>=0.9.54",
-    "selenium>=4.15.0",
-    "webdriver-manager>=4.0.0",
     "pyperclip>=1.8.2",
     "pynput>=1.7.6",
-    "watchdog>=3.0.0",
-    "opencv-python>=4.8.0",
-    "PyPDF2>=3.0.1",
-    "python-dotenv>=1.0.0",
     "schedule>=1.2.0",
-    "gitpython>=3.1.40",
-    "paramiko>=3.3.1",
-    "beautifulsoup4>=4.12.2",
-    "lxml>=4.9.3",
-    "openpyxl>=3.1.2",
+    "watchdog>=3.0.0",
+    
+    # GUI Framework
+    "PyQt5>=5.15.9",
+    "pyqtgraph>=0.13.3",
+    "qtawesome>=1.2.3",
+    
+    # Voice and Speech
+    "SpeechRecognition>=3.10.0",
+    "pyttsx3>=2.90",
+    "pyaudio>=0.2.11",
+    "whisper>=1.0.0",
+    "vosk>=0.3.45",
+    
+    # Natural Language Processing
+    "spacy>=3.7.0",
+    "nltk>=3.8.1",
+    "fuzzywuzzy>=0.18.0",
+    "python-Levenshtein>=0.23.0",
+    
+    # Data Processing and Analysis
     "pandas>=2.1.0",
     "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    
+    # File and Media Processing
+    "pillow>=10.0.0",
+    "opencv-python>=4.8.0",
+    "PyPDF2>=3.0.1",
+    "python-magic>=0.4.27",
+    "mutagen>=1.47.0",
+    
+    # Development and Git
+    "gitpython>=3.1.40",
+    "paramiko>=3.3.1",
+    "black>=23.0.0",
+    "pytest>=7.4.0",
+    
+    # Web and Browser Automation
+    "selenium>=4.15.0",
+    "webdriver-manager>=4.0.0",
+    "beautifulsoup4>=4.12.2",
+    "lxml>=4.9.3",
+    
+    # Document and Archive Processing
+    "openpyxl>=3.1.2",
+    "python-docx>=1.1.0",
+    "zipfile38>=0.0.3",
+    
+    # Configuration and Environment
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.4.0",
+    "pyyaml>=6.0.1",
+    "toml>=0.10.2",
+    
+    # Logging and Monitoring
+    "rich>=13.6.0",
+    "loguru>=0.7.2",
+    "prometheus-client>=0.18.0",
+    
+    # Notification and System Integration
+    "plyer>=2.1.0",
+    "desktop-notifier>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.4.0",
+]
+
+llm = [
+    "transformers>=4.35.0",
+    "torch>=2.1.0",
+    "sentence-transformers>=2.2.0",
+    "ollama>=0.1.7",
+]
+
+advanced = [
+    "tensorflow>=2.13.0",
+    "scikit-learn>=1.3.0",
+    "networkx>=3.2.0",
+    "celery>=5.3.0",
 ]
 
 [project.scripts]
-desktop-mcp = "desktop_mcp.server:main"
+desktop-mcp = "desktop_mcp.core.app:main"
+desktop-mcp-gui = "desktop_mcp.interfaces.gui.main_window:main"
+desktop-mcp-cli = "desktop_mcp.server:main"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
@@ -50,3 +132,13 @@ package-dir = {"" = "src"}
 [project.urls]
 "Homepage" = "https://github.com/yourusername/desktop-mcp"
 "Bug Tracker" = "https://github.com/yourusername/desktop-mcp/issues"
+"Documentation" = "https://github.com/yourusername/desktop-mcp/docs"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
