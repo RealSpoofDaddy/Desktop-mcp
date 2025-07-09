@@ -21,6 +21,20 @@ dependencies = [
     "pyautogui>=0.9.54",
     "selenium>=4.15.0",
     "webdriver-manager>=4.0.0",
+    "pyperclip>=1.8.2",
+    "pynput>=1.7.6",
+    "watchdog>=3.0.0",
+    "opencv-python>=4.8.0",
+    "PyPDF2>=3.0.1",
+    "python-dotenv>=1.0.0",
+    "schedule>=1.2.0",
+    "gitpython>=3.1.40",
+    "paramiko>=3.3.1",
+    "beautifulsoup4>=4.12.2",
+    "lxml>=4.9.3",
+    "openpyxl>=3.1.2",
+    "pandas>=2.1.0",
+    "numpy>=1.24.0",
 ]
 
 [project.scripts]
